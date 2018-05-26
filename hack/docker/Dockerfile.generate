@@ -1,0 +1,7 @@
+FROM quay.io/goswagger/swagger:latest AS generate
+WORKDIR $GOPATH/src/github.com/andrewrynhard/fibonacci
+COPY ./ ./
+RUN mkdir -p ./pkg/generated/server
+RUN mkdir -p ./pkg/generated/api
+RUN swagger generate client -f swagger/swagger.json -t ./pkg/generated/api
+RUN swagger generate server -f swagger/swagger.json -t ./pkg/generated/server --exclude-main

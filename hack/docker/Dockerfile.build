@@ -1,0 +1,8 @@
+FROM golang:1.10 AS build
+WORKDIR $GOPATH/src/github.com/andrewrynhard/fibonacci
+COPY ./ ./
+RUN CGO_ENABLED=0 go build -o /fib .
+
+FROM scratch
+COPY --from=build /fib /fib
+ENTRYPOINT ["/fib"]
