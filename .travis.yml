@@ -1,0 +1,22 @@
+sudo: required
+dist: trusty
+
+language: generic
+
+install:
+  - sudo apt-get -y remove docker docker-engine
+  - sudo apt-get -y update
+  - sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+  - curl -L https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz | sudo tar -xz -C /usr/local/bin --strip-components=1 linux-amd64/helm
+  - sudo chmod +x /usr/local/bin/helm
+  - helm init --client-only
+
+script:
+  - make
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
