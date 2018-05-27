@@ -1,9 +1,16 @@
 package sequence
 
 import (
-	"fmt"
 	"math/big"
 )
+
+// NegativeNumberError is a custom error.
+type NegativeNumberError struct{}
+
+// Error implements the Error interface.
+func (e NegativeNumberError) Error() string {
+	return "input must be greater than zero"
+}
 
 // Tuple represents a tuple.
 type Tuple struct {
@@ -28,8 +35,8 @@ type FastDoublingMethod struct{}
 // Fibonacci calculates the fibonacci number for the given number.
 func Fibonacci(n int64, algo Algorithm) (k *big.Int, err error) {
 	if n < 0 {
-		err = fmt.Errorf("n must be greater than zero")
-		return nil, err
+		err = NegativeNumberError{}
+		return
 	}
 
 	tuple := algo.F(big.NewInt(n))
