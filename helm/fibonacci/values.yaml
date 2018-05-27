@@ -9,7 +9,8 @@ image:
 
 service:
   type: ClusterIP
-  port: 80
+  apiPort: 8080
+  uiPort: 8081
 
 ingress:
   enabled: true
@@ -25,12 +26,20 @@ ingress:
   #      - fibonacci.local
 
 resources:
-  limits:
-   cpu: 1000m
-   memory: 1024Mi
-  requests:
-   cpu: 500m
-   memory: 512Mi
+  api:
+    limits:
+    cpu: 1000m
+    memory: 1024Mi
+    requests:
+    cpu: 500m
+    memory: 512Mi
+  ui:
+    limits:
+    cpu: 150m
+    memory: 256Mi
+    requests:
+    cpu: 150m
+    memory: 256Mi
 
 nodeSelector: {}
 

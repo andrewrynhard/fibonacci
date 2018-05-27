@@ -10,10 +10,14 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.service.apiPort }}
       targetPort: http
       protocol: TCP
-      name: http
+      name: api
+    - port: {{ .Values.service.uiPort }}
+      targetPort: http
+      protocol: TCP
+      name: ui
   selector:
     app: {{ template "fibonacci.name" . }}
     release: {{ .Release.Name }}
