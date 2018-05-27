@@ -18,6 +18,7 @@ func Serve(port int) error {
 		http.ServeFile(w, r, path.Join("swagger", r.URL.Path[1:]))
 	})
 
+	log.Printf("Serving Swagger UI at :%d", port)
 	r.PathPrefix("/swagger-ui/").Handler(http.StripPrefix("/swagger-ui", http.FileServer(http.Dir("swagger/ui"))))
 
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), r))

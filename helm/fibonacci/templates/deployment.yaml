@@ -20,19 +20,21 @@ spec:
         release: {{ .Release.Name }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: api
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
           - serve
           - api
+          - --port
+          - "{{ .Values.service.apiPort }}"
           - --with-cache
           env:
           - name: REDIS_ENDPOINT
             value: fibonacci-redis-master.{{ .Release.Namespace }}.svc.cluster.local:6379
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.service.apiPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -43,7 +45,24 @@ spec:
               path: /v1/healthz
               port: http
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources.api | indent 12 }}
+        - name: ui
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - serve
+            - ui
+            - --port
+            - "{{ .Values.service.uiPort }}"
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          ports:
+            - containerPort: {{ .Values.service.uiPort }}
+          resources:
+{{ toYaml .Values.resources.ui | indent 12 }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
