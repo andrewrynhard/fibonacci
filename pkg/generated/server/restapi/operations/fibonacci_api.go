@@ -19,6 +19,7 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/healthz"
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/sequence"
 )
 
@@ -39,6 +40,9 @@ func NewFibonacciAPI(spec *loads.Document) *FibonacciAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
+		HealthzGetHealthzHandler: healthz.GetHealthzHandlerFunc(func(params healthz.GetHealthzParams) middleware.Responder {
+			return middleware.NotImplemented("operation HealthzGetHealthz has not yet been implemented")
+		}),
 		SequenceGetSequenceHandler: sequence.GetSequenceHandlerFunc(func(params sequence.GetSequenceParams) middleware.Responder {
 			return middleware.NotImplemented("operation SequenceGetSequence has not yet been implemented")
 		}),
@@ -73,6 +77,8 @@ type FibonacciAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
+	// HealthzGetHealthzHandler sets the operation handler for the get healthz operation
+	HealthzGetHealthzHandler healthz.GetHealthzHandler
 	// SequenceGetSequenceHandler sets the operation handler for the get sequence operation
 	SequenceGetSequenceHandler sequence.GetSequenceHandler
 
@@ -136,6 +142,10 @@ func (o *FibonacciAPI) Validate() error {
 
 	if o.JSONProducer == nil {
 		unregistered = append(unregistered, "JSONProducer")
+	}
+
+	if o.HealthzGetHealthzHandler == nil {
+		unregistered = append(unregistered, "healthz.GetHealthzHandler")
 	}
 
 	if o.SequenceGetSequenceHandler == nil {
@@ -239,6 +249,11 @@ func (o *FibonacciAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/healthz"] = healthz.NewGetHealthz(o.context, o.HealthzGetHealthzHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

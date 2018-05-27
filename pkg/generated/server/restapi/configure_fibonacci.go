@@ -11,7 +11,9 @@ import (
 	graceful "github.com/tylerb/graceful"
 
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations"
+	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/healthz"
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/sequence"
+	healthzhandlers "github.com/andrewrynhard/fibonacci/pkg/healthz"
 	sequencehandlers "github.com/andrewrynhard/fibonacci/pkg/sequence"
 )
 
@@ -36,6 +38,7 @@ func configureAPI(api *operations.FibonacciAPI) http.Handler {
 	api.JSONProducer = runtime.JSONProducer()
 
 	api.SequenceGetSequenceHandler = sequence.GetSequenceHandlerFunc(sequencehandlers.GetSequence)
+	api.HealthzGetHealthzHandler = healthz.GetHealthzHandlerFunc(healthzhandlers.GetHealthz)
 
 	api.ServerShutdown = func() {}
 
