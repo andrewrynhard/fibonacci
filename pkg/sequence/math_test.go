@@ -1,6 +1,7 @@
 package sequence
 
 import (
+	"fmt"
 	"math/big"
 	"testing"
 	"time"
@@ -17,6 +18,27 @@ func NewFibonacciClient() *client.Fibonacci {
 	c := client.New(transport, strfmt.Default)
 
 	return c
+}
+
+// TestGetSequenceWithNegativeNumber is a fitness function to ensure that we
+// meet the requirement of disallowing negative numbers.
+func TestGetSequenceWithNegativeNumber(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping integration test")
+	}
+
+	inputs := []int64{
+		-1,
+	}
+	c := NewFibonacciClient()
+	params := sequence.NewGetSequenceParams()
+	for _, n := range inputs {
+		params.N = n
+		_, err := c.Sequence.GetSequence(params)
+		if err == nil {
+			t.Error(fmt.Errorf("expected error for negative number: %d", n))
+		}
+	}
 }
 
 // TestGetSequenceResponseTime is a fitness function to ensure that we meet the
@@ -52,6 +74,10 @@ func TestFibonacci(t *testing.T) {
 		n        int64
 		expected string
 	}{
+		{
+			n:        -1,
+			expected: "",
+		},
 		{
 			n:        0,
 			expected: "0",
@@ -105,7 +131,13 @@ func TestFibonacci(t *testing.T) {
 	for _, c := range cases {
 		k, err := Fibonacci(c.n, algo)
 		if err != nil {
+			if _, ok := err.(NegativeNumberError); ok && c.n < 0 {
+				continue
+			}
 			t.Error(err)
+		}
+		if c.n < 0 {
+			t.Error(fmt.Errorf("expected error for negative number: %d", c.n))
 		}
 		x, ok := big.NewInt(0).SetString(c.expected, 10)
 		if !ok {

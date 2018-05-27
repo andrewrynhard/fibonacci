@@ -35,6 +35,13 @@ func NewServerWithCache(cache cache.Cache) *Server {
 
 // GetSequence retreives a Fibonacci sequence for a value n.
 func (s *Server) GetSequence(params sequenceoperations.GetSequenceParams) middleware.Responder {
+	// This is checked by the math library, but we won't reach that in the case
+	// of something getting inserted into the cache "accidentally".
+	if params.N < 0 {
+		err := sequence.NegativeNumberError{}
+		return sequenceoperations.NewGetSequenceDefault(400).WithPayload(&sequencemodels.Error{Code: 400, Message: err.Error()})
+	}
+
 	if s.Cache == nil {
 		return sequence.GetSequence(params, nil)
 	}
