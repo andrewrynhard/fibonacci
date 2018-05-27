@@ -11,7 +11,7 @@ type Cache interface {
 type Key = int64
 
 // Value represents a value in a cache.
-type Value = string
+type Value = []string
 
 // KeyValuePair represents a key-value pair in a cache.
 type KeyValuePair struct {

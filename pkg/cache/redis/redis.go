@@ -1,6 +1,8 @@
 package redis
 
 import (
+	"encoding/json"
+
 	fibcache "github.com/andrewrynhard/fibonacci/pkg/cache"
 	"github.com/go-redis/redis"
 )
@@ -23,7 +25,12 @@ func NewRedisCache(addr string) *Cache {
 
 // Set implements the fibacache.Cache interface.
 func (c *Cache) Set(kv fibcache.KeyValuePair) (err error) {
-	if err = c.client.Set(string(kv.Key), kv.Value, 0).Err(); err != nil {
+	v, err := json.Marshal(kv.Value)
+	if err != nil {
+		return
+	}
+
+	if err = c.client.Set(string(kv.Key), string(v), 0).Err(); err != nil {
 		return
 	}
 
@@ -36,5 +43,9 @@ func (c *Cache) Get(k fibcache.Key) (kv *fibcache.KeyValuePair, err error) {
 	if err != nil {
 		return
 	}
-	return &fibcache.KeyValuePair{Key: k, Value: val}, nil
+	v := fibcache.Value{}
+	if err = json.Unmarshal([]byte(val), &v); err != nil {
+		return
+	}
+	return &fibcache.KeyValuePair{Key: k, Value: v}, nil
 }

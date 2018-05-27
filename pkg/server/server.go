@@ -56,7 +56,7 @@ func (s *Server) GetSequence(params sequenceoperations.GetSequenceParams) middle
 
 	log.Printf("cache hit: %d\n", params.N)
 
-	payload := &sequencemodels.Sequence{N: &kv.Value}
+	payload := &sequencemodels.Sequence{Sequence: kv.Value}
 
 	return sequenceoperations.NewGetSequenceOK().WithPayload(payload)
 }
