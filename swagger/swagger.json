@@ -1,0 +1,90 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Fibonacci",
+        "license": {
+            "name": "MPL 2.0"
+        }
+    },
+    "host": "fibonacci.local",
+    "basePath": "/v1",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/sequence/{n}": {
+            "get": {
+                "summary": "Returns the first n Fibonacci numbers",
+                "operationId": "getSequence",
+                "tags": [
+                    "sequence"
+                ],
+                "parameters": [
+                    {
+                        "name": "n",
+                        "in": "path",
+                        "required": true,
+                        "description": "Specifies which number the sequence should stop at (inclusively)",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expected response to a valid request",
+                        "schema": {
+                            "$ref": "#/definitions/Sequence"
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Sequence": {
+            "required": [
+                "n"
+            ],
+            "properties": {
+                "n": {
+                    "type": "string"
+                }
+            }
+        },
+        "SequenceRequest": {
+            "required": [
+                "n"
+            ],
+            "properties": {
+                "n": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "Error": {
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
