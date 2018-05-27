@@ -106,11 +106,14 @@ func init() {
     },
     "Sequence": {
       "required": [
-        "n"
+        "sequence"
       ],
       "properties": {
-        "n": {
-          "type": "string"
+        "sequence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -216,11 +219,14 @@ func init() {
     },
     "Sequence": {
       "required": [
-        "n"
+        "sequence"
       ],
       "properties": {
-        "n": {
-          "type": "string"
+        "sequence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

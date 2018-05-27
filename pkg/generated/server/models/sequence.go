@@ -17,16 +17,16 @@ import (
 // swagger:model Sequence
 type Sequence struct {
 
-	// n
+	// sequence
 	// Required: true
-	N *string `json:"n"`
+	Sequence []string `json:"sequence"`
 }
 
 // Validate validates this sequence
 func (m *Sequence) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateN(formats); err != nil {
+	if err := m.validateSequence(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -36,9 +36,9 @@ func (m *Sequence) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Sequence) validateN(formats strfmt.Registry) error {
+func (m *Sequence) validateSequence(formats strfmt.Registry) error {
 
-	if err := validate.Required("n", "body", m.N); err != nil {
+	if err := validate.Required("sequence", "body", m.Sequence); err != nil {
 		return err
 	}
 

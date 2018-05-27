@@ -49,8 +49,11 @@ func TestGetSequenceResponseTime(t *testing.T) {
 	}
 
 	inputs := []int64{
-		500000,
+		500,
+		1000,
+		2000,
 	}
+
 	c := NewFibonacciClient()
 	params := sequence.NewGetSequenceParams()
 	for _, n := range inputs {
@@ -68,9 +71,30 @@ func TestGetSequenceResponseTime(t *testing.T) {
 	}
 }
 
+// TestCalculationTime is a fitness function to ensure that we meet the
+// maxiumum response time requirement.
+func TestCalculationTime(t *testing.T) {
+	inputs := []int64{
+		500000,
+	}
+	algo := &FastDoublingMethod{}
+	for _, n := range inputs {
+		start := time.Now()
+		_, err := Fibonacci(n, algo)
+		if err != nil {
+			t.Error(err)
+		}
+		end := time.Now()
+		delta := end.Sub(start)
+		if delta > 250*time.Millisecond {
+			t.Errorf("slow calculation: %s", delta.String())
+		}
+	}
+}
+
 // Compared against http://www.bigprimes.net/archive/fibonacci/
 func TestFibonacci(t *testing.T) {
-	cases := []struct {
+	inputs := []struct {
 		n        int64
 		expected string
 	}{
@@ -128,7 +152,7 @@ func TestFibonacci(t *testing.T) {
 		},
 	}
 	algo := &FastDoublingMethod{}
-	for _, c := range cases {
+	for _, c := range inputs {
 		k, err := Fibonacci(c.n, algo)
 		if err != nil {
 			if _, ok := err.(NegativeNumberError); ok && c.n < 0 {
