@@ -11,6 +11,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/andrewrynhard/fibonacci/pkg/generated/api/client/healthz"
 	"github.com/andrewrynhard/fibonacci/pkg/generated/api/client/sequence"
 )
 
@@ -56,6 +57,8 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *Fibonacci 
 
 	cli := new(Fibonacci)
 	cli.Transport = transport
+
+	cli.Healthz = healthz.New(transport, formats)
 
 	cli.Sequence = sequence.New(transport, formats)
 
@@ -103,6 +106,8 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 
 // Fibonacci is a client for fibonacci
 type Fibonacci struct {
+	Healthz *healthz.Client
+
 	Sequence *sequence.Client
 
 	Transport runtime.ClientTransport
@@ -111,6 +116,8 @@ type Fibonacci struct {
 // SetTransport changes the transport on the client and all its subresources
 func (c *Fibonacci) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
+
+	c.Healthz.SetTransport(transport)
 
 	c.Sequence.SetTransport(transport)
 

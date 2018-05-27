@@ -51,6 +51,26 @@
                     }
                 }
             }
+        },
+        "/healthz": {
+            "get": {
+                "summary": "Returns the health of the application",
+                "operationId": "getHealthz",
+                "tags": [
+                    "healthz"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The response indicating that the application is healthy."
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

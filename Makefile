@@ -1,7 +1,10 @@
 SHELL := /bin/bash
-REPOSITORY = andrewrynhard/fibonacci
+REPOSITORY = arynhard/fibonacci
 SRC = github.com/$(REPOSITORY)
 TAG = $(shell ./hack/tag.sh)
+NAMESPACE = default
+CHART = fibonacci
+SET_ARGS = --set image.repository=$(REPOSITORY) --set image.tag=$(TAG)
 IP = $(shell ip route get 1 | awk '{print $$NF;exit}')
 
 all: test
@@ -24,3 +27,19 @@ test: build
 	docker run -d -p 80:80 --name fibonacci-latest  $(REPOSITORY):latest serve api
 	docker build --add-host test.local:$(IP) -f ./hack/docker/Dockerfile.$@ -t $(REPOSITORY):$@ .
 	-docker rm -f fibonacci-latest
+	helm lint $(SET_ARGS) helm/$(CHART)
+
+push: test
+	docker push $(REPOSITORY):$(TAG)
+
+minikube:
+	helm upgrade \
+		--debug \
+		--wait \
+		--kube-context minikube \
+		--install \
+		$(SET_ARGS) \
+		--namespace $(NAMESPACE) $(CHART) helm/$(CHART)
+
+clean:
+	helm delete --purge $(CHART)

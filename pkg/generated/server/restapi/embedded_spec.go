@@ -38,6 +38,26 @@ func init() {
   "host": "fibonacci.local",
   "basePath": "/v1",
   "paths": {
+    "/healthz": {
+      "get": {
+        "tags": [
+          "healthz"
+        ],
+        "summary": "Returns the health of the application",
+        "operationId": "getHealthz",
+        "responses": {
+          "200": {
+            "description": "The response indicating that the application is healthy."
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/sequence/{n}": {
       "get": {
         "tags": [
@@ -128,6 +148,26 @@ func init() {
   "host": "fibonacci.local",
   "basePath": "/v1",
   "paths": {
+    "/healthz": {
+      "get": {
+        "tags": [
+          "healthz"
+        ],
+        "summary": "Returns the health of the application",
+        "operationId": "getHealthz",
+        "responses": {
+          "200": {
+            "description": "The response indicating that the application is healthy."
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/sequence/{n}": {
       "get": {
         "tags": [
