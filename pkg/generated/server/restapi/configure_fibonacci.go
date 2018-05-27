@@ -11,10 +11,6 @@ import (
 	graceful "github.com/tylerb/graceful"
 
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations"
-	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/healthz"
-	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/sequence"
-	healthzhandlers "github.com/andrewrynhard/fibonacci/pkg/healthz"
-	sequencehandlers "github.com/andrewrynhard/fibonacci/pkg/sequence"
 )
 
 //go:generate swagger generate server --target ../pkg/generated/server --name  --spec ../swagger/swagger.json --exclude-main
@@ -36,9 +32,6 @@ func configureAPI(api *operations.FibonacciAPI) http.Handler {
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
-
-	api.SequenceGetSequenceHandler = sequence.GetSequenceHandlerFunc(sequencehandlers.GetSequence)
-	api.HealthzGetHealthzHandler = healthz.GetHealthzHandlerFunc(healthzhandlers.GetHealthz)
 
 	api.ServerShutdown = func() {}
 

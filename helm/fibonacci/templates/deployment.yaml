@@ -26,6 +26,10 @@ spec:
           args:
           - serve
           - api
+          - --with-cache
+          env:
+          - name: REDIS_ENDPOINT
+            value: fibonacci-redis-master.{{ .Release.Namespace }}.svc.cluster.local:6379
           ports:
             - name: http
               containerPort: 80

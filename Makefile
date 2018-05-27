@@ -4,7 +4,7 @@ SRC = github.com/$(REPOSITORY)
 TAG = $(shell ./hack/tag.sh)
 NAMESPACE = default
 CHART = fibonacci
-SET_ARGS = --set image.repository=$(REPOSITORY) --set image.tag=$(TAG)
+SET_ARGS = --set image.repository=$(REPOSITORY) --set image.tag=$(TAG) --set redis.usePassword="false"
 IP = $(shell ip route get 1 | awk '{print $$NF;exit}')
 
 all: test
@@ -21,6 +21,7 @@ generate:
 build: generate
 	docker build -f ./hack/docker/Dockerfile.$@ -t $(REPOSITORY):latest .
 	docker tag $(REPOSITORY):latest $(REPOSITORY):$(TAG)
+	helm dependency build helm/$(CHART)
 
 test: build
 	-docker rm -f fibonacci-latest

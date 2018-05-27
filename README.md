@@ -30,7 +30,19 @@ kubectl --context minikube create clusterrolebinding tiller --clusterrole cluste
 helm init --kube-context minikube
 ```
 
-## Deploy to Minkube
+## Deploying Fibonacci
+
+### Building
+
+```bash
+make build
+make push
+```
+
+> Note: If you plan on deploying to minikube, you can speed up development by
+> setting up docker to build against minikube: `eval $(minikube docker-env)`
+
+### Deploy to Minkube
 
 ```bash
 make minikube
