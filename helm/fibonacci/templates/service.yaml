@@ -11,13 +11,17 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.apiPort }}
-      targetPort: http
+      targetPort: api
       protocol: TCP
       name: api
     - port: {{ .Values.service.uiPort }}
-      targetPort: http
+      targetPort: ui
       protocol: TCP
       name: ui
+    - port: {{ .Values.service.metricsPort }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
   selector:
     app: {{ template "fibonacci.name" . }}
     release: {{ .Release.Name }}

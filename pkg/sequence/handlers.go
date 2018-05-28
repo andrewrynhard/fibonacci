@@ -1,11 +1,14 @@
 package sequence
 
 import (
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/andrewrynhard/fibonacci/pkg/cache"
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/models"
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/sequence"
+	"github.com/andrewrynhard/fibonacci/pkg/metrics"
 	"github.com/go-openapi/runtime/middleware"
 )
 
@@ -13,6 +16,7 @@ import (
 func GetSequence(params sequence.GetSequenceParams, c cache.Cache) middleware.Responder {
 	payload := &models.Sequence{}
 	algo := &FastDoublingMethod{}
+	start := time.Now()
 	for i := int64(0); i < (params.N); i++ {
 		n, err := Fibonacci(i, algo)
 		if err != nil {
@@ -20,6 +24,8 @@ func GetSequence(params sequence.GetSequenceParams, c cache.Cache) middleware.Re
 		}
 		payload.Sequence = append(payload.Sequence, n.String())
 	}
+	duration := time.Since(start)
+	metrics.DurationHistogram.WithLabelValues(fmt.Sprintf("%d", 200)).Observe(duration.Seconds())
 
 	if c != nil {
 		if err := c.Set(cache.KeyValuePair{Key: params.N, Value: payload.Sequence}); err != nil {

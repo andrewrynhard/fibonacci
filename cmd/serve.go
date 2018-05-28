@@ -12,6 +12,7 @@ import (
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations"
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/healthz"
 	"github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/sequence"
+	"github.com/andrewrynhard/fibonacci/pkg/metrics"
 	"github.com/andrewrynhard/fibonacci/pkg/server"
 	"github.com/andrewrynhard/fibonacci/pkg/ui"
 	loads "github.com/go-openapi/loads"
@@ -19,8 +20,10 @@ import (
 )
 
 var (
-	useCache bool
-	port     int
+	useCache    bool
+	apiPort     int
+	metrcisPort int
+	uiPort      int
 )
 
 // serveCmd represents the serve command
@@ -40,6 +43,12 @@ var apiCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalln(err)
 		}
+
+		go func() {
+			if err := metrics.ServeMetrics(metrcisPort); err != nil {
+				log.Printf("failed to start metrics: %v", err)
+			}
+		}()
 
 		var fibserver *server.Server
 		if useCache {
@@ -64,7 +73,7 @@ var apiCmd = &cobra.Command{
 		defer server.Shutdown()
 
 		server.ConfigureAPI()
-		server.Port = port
+		server.Port = apiPort
 
 		if err := server.Serve(); err != nil {
 			log.Fatalln(err)
@@ -78,7 +87,7 @@ var uiCmd = &cobra.Command{
 	Short: "",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := ui.Serve(port); err != nil {
+		if err := ui.Serve(uiPort); err != nil {
 			log.Fatalln(err)
 		}
 	},
@@ -87,6 +96,8 @@ var uiCmd = &cobra.Command{
 func init() {
 	apiCmd.Flags().BoolVar(&useCache, "with-cache", false, "Use a caching layer")
 	rootCmd.AddCommand(serveCmd)
-	serveCmd.PersistentFlags().IntVarP(&port, "port", "p", 80, "Port to listen on (default: 80)")
+	serveCmd.PersistentFlags().IntVar(&apiPort, "api-port", 80, "Port to listen on (default: 80)")
+	serveCmd.PersistentFlags().IntVar(&metrcisPort, "metrics-port", 82, "Port to listen on (default: 82)")
+	serveCmd.PersistentFlags().IntVar(&uiPort, "ui-port", 81, "Port to listen on (default: 81)")
 	serveCmd.AddCommand(apiCmd, uiCmd)
 }

@@ -25,15 +25,31 @@ build: generate
 
 test: build
 	-docker rm -f fibonacci-latest
-	docker run -d -p 80:80 --name fibonacci-latest  $(REPOSITORY):latest serve api
-	docker build --add-host test.local:$(IP) -f ./hack/docker/Dockerfile.$@ -t $(REPOSITORY):$@ .
+	docker run -d -p 8080:8080 --name fibonacci-latest  $(REPOSITORY):latest serve api --api-port 8080
+	docker build --build-arg TEST_HOST="test.local:8080" --add-host test.local:$(IP) -f ./hack/docker/Dockerfile.$@ -t $(REPOSITORY):$@ .
 	-docker rm -f fibonacci-latest
 	helm lint $(SET_ARGS) helm/$(CHART)
 
 push: test
 	docker push $(REPOSITORY):$(TAG)
 
-minikube:
+monitoring:
+	helm upgrade \
+		--debug \
+		--wait \
+		--kube-context minikube \
+		--install \
+		-f ./helm/prometheus/values.yaml \
+		--namespace $@ prometheus stable/prometheus
+	helm upgrade \
+		--debug \
+		--wait \
+		--kube-context minikube \
+		--install \
+		-f ./helm/grafana/values.yaml \
+		--namespace $@ grafana stable/grafana
+
+deploy:
 	helm upgrade \
 		--debug \
 		--wait \
@@ -42,5 +58,13 @@ minikube:
 		$(SET_ARGS) \
 		--namespace $(NAMESPACE) $(CHART) helm/$(CHART)
 
-clean:
+clean-dns:
+	sed -i '' '/grafana.local/d' /private/etc/hosts
+	sed -i '' '/fibonacci.local/d' /private/etc/hosts
+
+dns: clean-dns
+	echo "$$(minikube ip) grafana.local" | tee -a /private/etc/hosts
+	echo "$$(minikube ip) fibonacci.local" | tee -a /private/etc/hosts
+
+clean: clean-dns
 	helm delete --purge $(CHART)

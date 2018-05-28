@@ -54,10 +54,6 @@
   name = "github.com/go-openapi/validate"
 
 [[constraint]]
-  name = "github.com/go-redis/cache"
-  version = "6.3.5"
-
-[[constraint]]
   name = "github.com/go-redis/redis"
   version = "6.11.0"
 
@@ -76,10 +72,6 @@
 [[constraint]]
   name = "github.com/tylerb/graceful"
   version = "1.2.15"
-
-[[constraint]]
-  name = "github.com/vmihailenco/msgpack"
-  version = "3.3.2"
 
 [[constraint]]
   branch = "master"
