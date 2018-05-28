@@ -20,6 +20,32 @@ func NewFibonacciClient() *client.Fibonacci {
 	return c
 }
 
+// TestGetSequenceLength is a fitness function to ensure that we
+// meet the requirement of disallowing negative numbers.
+func TestGetSequenceLength(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping integration test")
+	}
+
+	inputs := []int64{
+		5,
+		25,
+		625,
+	}
+	c := NewFibonacciClient()
+	params := sequence.NewGetSequenceParams()
+	for _, n := range inputs {
+		params.N = n
+		s, err := c.Sequence.GetSequence(params)
+		if err != nil {
+			t.Error(err)
+		}
+		if len(s.Payload.Sequence) != int(n) {
+			t.Error(fmt.Errorf("expected array of length %d got %d", n, len(s.Payload.Sequence)))
+		}
+	}
+}
+
 // TestGetSequenceWithNegativeNumber is a fitness function to ensure that we
 // meet the requirement of disallowing negative numbers.
 func TestGetSequenceWithNegativeNumber(t *testing.T) {
