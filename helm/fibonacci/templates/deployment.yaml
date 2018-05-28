@@ -15,6 +15,9 @@ spec:
       release: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "{{ .Values.service.metricsPort }}"
       labels:
         app: {{ template "fibonacci.name" . }}
         release: {{ .Release.Name }}
@@ -26,24 +29,29 @@ spec:
           args:
           - serve
           - api
-          - --port
+          - --api-port
           - "{{ .Values.service.apiPort }}"
+          - --metrics-port
+          - "{{ .Values.service.metricsPort }}"
           - --with-cache
           env:
           - name: REDIS_ENDPOINT
             value: fibonacci-redis-master.{{ .Release.Namespace }}.svc.cluster.local:6379
           ports:
-            - name: http
+            - name: api
               containerPort: {{ .Values.service.apiPort }}
+              protocol: TCP
+            - name: metrics
+              containerPort: {{ .Values.service.metricsPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /v1/healthz
-              port: http
+              port: api
           readinessProbe:
             httpGet:
               path: /v1/healthz
-              port: http
+              port: api
           resources:
 {{ toYaml .Values.resources.api | indent 12 }}
         - name: ui
@@ -52,7 +60,7 @@ spec:
           args:
             - serve
             - ui
-            - --port
+            - --ui-port
             - "{{ .Values.service.uiPort }}"
           env:
             - name: NAMESPACE
@@ -60,7 +68,9 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
           ports:
-            - containerPort: {{ .Values.service.uiPort }}
+            - name: ui
+              containerPort: {{ .Values.service.uiPort }}
+              protocol: TCP
           resources:
 {{ toYaml .Values.resources.ui | indent 12 }}
     {{- with .Values.nodeSelector }}

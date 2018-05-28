@@ -8,6 +8,7 @@ import (
 	healthzoperations "github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/healthz"
 	sequenceoperations "github.com/andrewrynhard/fibonacci/pkg/generated/server/restapi/operations/sequence"
 	"github.com/andrewrynhard/fibonacci/pkg/healthz"
+	"github.com/andrewrynhard/fibonacci/pkg/metrics"
 	"github.com/andrewrynhard/fibonacci/pkg/sequence"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-redis/redis"
@@ -42,18 +43,23 @@ func (s *Server) GetSequence(params sequenceoperations.GetSequenceParams) middle
 		return sequenceoperations.NewGetSequenceDefault(400).WithPayload(&sequencemodels.Error{Code: 400, Message: err.Error()})
 	}
 
+	// No cache layer has been configured.
 	if s.Cache == nil {
 		return sequence.GetSequence(params, nil)
 	}
 
 	kv, err := s.Cache.Get(params.N)
+	// TODO: The Cache interfaces Get func should indicate whether or not there
+	// was a cache hit/miss.
 	if err == redis.Nil {
+		metrics.CacheMissesCounter.Inc()
 		log.Printf("cache miss: %d\n", params.N)
 		return sequence.GetSequence(params, s.Cache)
 	} else if err != nil {
 		log.Printf("cache error: %v", err)
 	}
 
+	metrics.CacheHitsCounter.Inc()
 	log.Printf("cache hit: %d\n", params.N)
 
 	payload := &sequencemodels.Sequence{Sequence: kv.Value}

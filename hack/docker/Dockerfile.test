@@ -5,4 +5,6 @@ COPY ./ ./
 RUN chmod +x ./hack/test.sh
 RUN ./hack/test.sh --lint
 RUN ./hack/test.sh --unit
+ARG TEST_HOST
+ENV HOST $TEST_HOST
 RUN ./hack/test.sh --integration

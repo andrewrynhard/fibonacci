@@ -3,6 +3,7 @@ package sequence
 import (
 	"fmt"
 	"math/big"
+	"os"
 	"testing"
 	"time"
 
@@ -14,7 +15,7 @@ import (
 
 // NewFibonacciClient initializes and returns a fibonacci client.
 func NewFibonacciClient() *client.Fibonacci {
-	transport := httptransport.NewWithClient("test.local", "v1", nil, nil)
+	transport := httptransport.NewWithClient(os.Getenv("HOST"), "v1", nil, nil)
 	c := client.New(transport, strfmt.Default)
 
 	return c
