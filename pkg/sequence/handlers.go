@@ -13,7 +13,7 @@ import (
 func GetSequence(params sequence.GetSequenceParams, c cache.Cache) middleware.Responder {
 	payload := &models.Sequence{}
 	algo := &FastDoublingMethod{}
-	for i := int64(0); i <= (params.N); i++ {
+	for i := int64(0); i < (params.N); i++ {
 		n, err := Fibonacci(i, algo)
 		if err != nil {
 			return sequence.NewGetSequenceDefault(400).WithPayload(&models.Error{Code: 400, Message: err.Error()})
