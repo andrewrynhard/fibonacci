@@ -1,0 +1,7 @@
+FROM golang:1.10 AS build
+WORKDIR $GOPATH/src/github.com/andrewrynhard/fibonacci
+RUN curl -L https://github.com/gohugoio/hugo/releases/download/v0.41/hugo_0.41_Linux-64bit.tar.gz | tar xz -C /usr/local/bin hugo
+RUN chmod +x /usr/local/bin/hugo
+RUN mkdir ./docs
+COPY ./hugo ./hugo
+RUN cd hugo && hugo --destination ../docs

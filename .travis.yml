@@ -16,7 +16,8 @@ install:
   - helm init --client-only
 
 script:
-  - make
+  - make test
+  - make docs
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
