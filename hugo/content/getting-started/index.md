@@ -35,7 +35,7 @@ curl -L https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-darwin-amd64.
 #### `kubectl`
 
 ```bash
-curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl -C /usr/local/bin \
+curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl -o /usr/local/bin/kubectl \
 && chmod +x /usr/local/bin/kubectl
 ```
 
@@ -48,7 +48,7 @@ brew install iproute2mac
 #### `dep`
 
 ```bash
-go get -u github.com/golang/dep
+go get -u github.com/golang/dep/cmd/dep
 ```
 
 > Note: `dep` is not a hard requirement to build and deploy Fibonacci. It is only required for development.

@@ -316,7 +316,7 @@ curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-
 
 <h4 id="kubectl"><code>kubectl</code></h4>
 
-<pre><code class="language-bash">curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl -C /usr/local/bin \
+<pre><code class="language-bash">curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl -o /usr/local/bin/kubectl \
 &amp;&amp; chmod +x /usr/local/bin/kubectl
 </code></pre>
 
@@ -327,7 +327,7 @@ curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-
 
 <h4 id="dep"><code>dep</code></h4>
 
-<pre><code class="language-bash">go get -u github.com/golang/dep
+<pre><code class="language-bash">go get -u github.com/golang/dep/cmd/dep
 </code></pre>
 
 <blockquote>
