@@ -39,6 +39,12 @@ curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s http
 && chmod +x /usr/local/bin/kubectl
 ```
 
+#### `ip`
+
+```bash
+brew install iproute2mac
+```
+
 #### `dep`
 
 ```bash
