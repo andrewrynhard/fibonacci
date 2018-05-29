@@ -35,9 +35,13 @@ test: build
 	-docker rm -f fibonacci-latest
 	helm lint $(SET_ARGS) helm/$(CHART)
 
-coverage:
-	docker build -f ./hack/docker/Dockerfile.$@ -t $(REPOSITORY):$@ .
+coverage: build
+	-docker rm -f fibonacci-latest
+	docker run -d -p 8080:8080 --name fibonacci-latest  $(REPOSITORY):latest serve api --api-port 8080
+	docker build --build-arg TEST_HOST="test.local:8080" --add-host test.local:$(IP) -f ./hack/docker/Dockerfile.$@ -t $(REPOSITORY):$@ .
 	docker run --rm -i --volume $(shell pwd):/out --entrypoint=/bin/cp $(REPOSITORY):$@ coverage.txt /out/
+	-docker rm -f fibonacci-latest
+
 
 .PHONY: push
 push: test
