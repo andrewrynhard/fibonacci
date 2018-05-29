@@ -1,6 +1,7 @@
 *
 !cmd
 !hack
+!hugo
 !pkg
 !swagger
 !vendor

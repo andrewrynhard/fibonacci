@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-us">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Getting Started - Fibonacci</title>
+    <meta name="generator" content="Hugo 0.41" />
+
+    
+    <meta name="description" content="A Fibonacci sequence generator.">
+    
+    <link rel="canonical" href="https://andrewrynhard.github.io/fibonacci/getting-started/">
+    
+    <meta name="author" content="Andrew Rynhard">
+    
+
+    <meta property="og:url" content="https://andrewrynhard.github.io/fibonacci/getting-started/">
+    <meta property="og:title" content="Fibonacci">
+    <meta property="og:image" content="https://andrewrynhard.github.io/fibonacci/images/logo.png">
+    <meta name="apple-mobile-web-app-title" content="Fibonacci">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://andrewrynhard.github.io/fibonacci/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://andrewrynhard.github.io/fibonacci/images/favicon.ico">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('https://andrewrynhard.github.io/fibonacci/fonts/icon.eot');
+        src: url('https://andrewrynhard.github.io/fibonacci/fonts/icon.eot')
+               format('embedded-opentype'),
+             url('https://andrewrynhard.github.io/fibonacci/fonts/icon.woff')
+               format('woff'),
+             url('https://andrewrynhard.github.io/fibonacci/fonts/icon.ttf')
+               format('truetype'),
+             url('https://andrewrynhard.github.io/fibonacci/fonts/icon.svg')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://andrewrynhard.github.io/fibonacci/stylesheets/application.css">
+    <link rel="stylesheet" href="https://andrewrynhard.github.io/fibonacci/stylesheets/temporary.css">
+    <link rel="stylesheet" href="https://andrewrynhard.github.io/fibonacci/stylesheets/palettes.css">
+    <link rel="stylesheet" href="https://andrewrynhard.github.io/fibonacci/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu&#43;Mono">
+    <style>
+      body, input {
+        font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+
+    
+    <script src="https://andrewrynhard.github.io/fibonacci/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-cyan palette-accent-teal">
+
+
+
+	
+	
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        Getting Started
+      </div>
+    </div>
+
+    
+
+    
+    <div class="button button-github" role="button" aria-label="GitHub">
+      <a href="https://github.com/andrewrynhard" title="@andrewrynhard on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+    </div>
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+</header>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  <a href="https://github.com/andrewrynhard/fibonacci" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="https://andrewrynhard.github.io/fibonacciimages/logo.png">
+        </div>
+      
+      <div class="name">
+        <strong>Fibonacci <span class="version">0.1.0</span></strong>
+        
+          <br>
+          andrewrynhard/fibonacci
+        
+      </div>
+    </div>
+  </a>
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            <a href="https://github.com/andrewrynhard/fibonacci/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/andrewrynhard/fibonacci/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
+<li>
+  
+    
+
+
+
+<a class="current" title="Getting started" href="https://andrewrynhard.github.io/fibonacci/getting-started/">
+	
+	Getting started
+</a>
+
+
+<ul id="scrollspy">
+</ul>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="API" href="https://andrewrynhard.github.io/fibonacci/api">
+	
+	API
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Preparing a Release" href="https://andrewrynhard.github.io/fibonacci/preparing-a-release/">
+	
+	Preparing a Release
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Documentation" href="https://andrewrynhard.github.io/fibonacci/documentation/">
+	
+	Documentation
+</a>
+
+
+
+  
+</li>
+
+
+        </ul>
+        
+
+        
+        <hr>
+        <span class="section">The author</span>
+        
+        <ul>
+          
+
+          
+          <li>
+            <a href="https://github.com/andrewrynhard" target="_blank" title="@andrewrynhard on GitHub">
+              @andrewrynhard on GitHub
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="mailto:andrew@andrewrynhard.com" title="Email of andrew@andrewrynhard.com">
+              Contact via email
+            </a>
+          </li>
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+
+	</div>
+
+	<article class="article">
+		<div class="wrapper">
+			<h1>Getting Started </h1>
+
+			
+
+<h2 id="quick-start">Quick Start</h2>
+
+<h3 id="install-the-dependencies">Install the Dependencies</h3>
+
+<h4 id="docker"><code>docker</code></h4>
+
+<p>The <code>Dockerfile</code>s use multi-stage builds. Docker 17.05 or greater is required.
+Follow the official installation <a href="https://docs.docker.com/install/">guide</a> for your platform.</p>
+
+<h4 id="minikube"><code>minikube</code></h4>
+
+<pre><code class="language-bash">curl -Lo /usr/local/bin/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64 \
+&amp;&amp; chmod +x /usr/local/bin/minikube
+curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \
+&amp;&amp; chmod +x docker-machine-driver-hyperkit \
+&amp;&amp; sudo mv docker-machine-driver-hyperkit /usr/local/bin/ \
+&amp;&amp; sudo chown root:wheel /usr/local/bin/docker-machine-driver-hyperkit \
+&amp;&amp; sudo chmod u+s /usr/local/bin/docker-machine-driver-hyperkit
+</code></pre>
+
+<h4 id="helm"><code>helm</code></h4>
+
+<pre><code class="language-bash">curl -L https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-darwin-amd64.tar.gz | tar -xz -C /usr/local/bin --strip-components=1 darwin-amd64/helm \
+&amp;&amp; chmod +x /usr/local/bin/helm
+</code></pre>
+
+<h4 id="kubectl"><code>kubectl</code></h4>
+
+<pre><code class="language-bash">curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl -C /usr/local/bin \
+&amp;&amp; chmod +x /usr/local/bin/kubectl
+</code></pre>
+
+<h4 id="build-and-deploy">Build and Deploy</h4>
+
+<p>Once you have ensured that the above dependecies have been installed, you are ready to start.</p>
+
+<p>First, the <code>Makefile</code> requires a valid Docker Hub username. Export the username before
+invoking <code>make</code>:</p>
+
+<pre><code class="language-bash">export USERNAME=${your docker hub username goes here}
+</code></pre>
+
+<p>The quick start uses the <code>all</code> target of the <code>Makefile</code>. This target will
+perform the following:</p>
+
+<ul>
+<li>Create a minikube cluster</li>
+<li>Install
+
+<ul>
+<li>Prometheus</li>
+<li>Grafana</li>
+</ul></li>
+<li>Build and push the Docker image</li>
+<li>Install Fibonacci</li>
+</ul>
+
+<p>Execute the steps outlined above by running:</p>
+
+<pre><code class="language-bash">make
+</code></pre>
+
+<blockquote>
+<p>Note: You can build on the minikube host by executing: <code>eval $(minikube docker-env)</code></p>
+</blockquote>
+
+<p>You can now use the API! For example:</p>
+
+<pre><code class="language-bash">curl fibonacci.local/v1/sequence/5
+{&quot;sequence&quot;:[&quot;0&quot;,&quot;1&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;]}
+</code></pre>
+
+
+			<aside class="copyright" role="note">
+				
+				&copy; 2018 MPL v2 &ndash;
+				
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+      <a href="https://andrewrynhard.github.io/fibonacci/fibonacci/" title="Fibonacci">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Fibonacci
+            </div>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="https://andrewrynhard.github.io/fibonacci/preparing-a-release/" title="Preparing a Release">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              Preparing a Release
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+</nav>
+
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+    <script>
+    
+      var base_url = 'https:\/\/andrewrynhard.github.io\/fibonacci';
+      var repo_id  = 'andrewrynhard\/fibonacci';
+    
+    </script>
+
+    <script src="https://andrewrynhard.github.io/fibonacci/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(scrollspy) {
+        if(headers.length > 0) {
+          for(var i = 0; i < headers.length; i++) {
+            var li = document.createElement("li");
+            li.setAttribute("class", "anchor");
+
+            var a  = document.createElement("a");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", headers[i].innerHTML);
+            a.innerHTML = headers[i].innerHTML;
+
+            li.appendChild(a)
+            scrollspy.appendChild(li);
+          }
+        } else {
+          scrollspy.parentElement.removeChild(scrollspy)
+        }
+
+
+        /* Add permanent link next to the headers */
+        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+        for(var i = 0; i < headers.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("class", "headerlink");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", "Permanent link")
+            a.innerHTML = "#";
+            headers[i].appendChild(a);
+        }
+      }
+    </script>
+
+    
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

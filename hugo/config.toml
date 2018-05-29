@@ -1,0 +1,66 @@
+baseURL = "https://andrewrynhard.github.io/fibonacci"
+languageCode = "en-us"
+metadataformat = "yaml"
+canonifyurls = true
+title = "Fibonacci"
+theme = "hugo-material-docs"
+
+# Enable Google Analytics by entering your tracking id
+googleAnalytics = ""
+
+[params]
+	# General information
+	author = "Andrew Rynhard"
+	description = "A Fibonacci sequence generator."
+	copyright = "MPL v2"
+
+	# Repository
+	provider = "GitHub"
+	repo_url = "https://github.com/andrewrynhard/fibonacci"
+
+	version = "0.1.0"
+	logo = "images/logo.png"
+	favicon = ""
+
+	permalink = "#"
+
+	# Custom assets
+	custom_css = []
+	custom_js  = []
+
+	# Syntax highlighting theme
+	highlight_css  = ""
+
+	[params.palette]
+    	primary = "cyan"
+    	accent  = "teal"
+
+    [params.font]
+    	text = "Ubuntu"
+    	code = "Ubuntu Mono"
+
+
+[social]
+	twitter = ""
+	github  = "andrewrynhard"
+	email   = "andrew@andrewrynhard.com"
+
+[[menu.main]]
+	name   = "Getting started"
+	url    = "getting-started/"
+	weight = 1
+
+[[menu.main]]
+	name   = "API"
+	url    = "api"
+	weight = 2
+
+[[menu.main]]
+	name   = "Preparing a Release"
+	url    = "preparing-a-release/"
+	weight = 3
+
+[[menu.main]]
+	name   = "Documentation"
+	url    = "documentation/"
+	weight = 4

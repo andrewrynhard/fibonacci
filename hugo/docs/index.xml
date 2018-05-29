@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fibonacci</title>
+    <link>https://andrewrynhard.github.io/fibonacci/</link>
+    <description>Recent content on Fibonacci</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 28 May 2018 16:27:37 -0700</lastBuildDate>
+    
+	<atom:link href="https://andrewrynhard.github.io/fibonacci/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>API</title>
+      <link>https://andrewrynhard.github.io/fibonacci/api/</link>
+      <pubDate>Mon, 28 May 2018 16:27:37 -0700</pubDate>
+      
+      <guid>https://andrewrynhard.github.io/fibonacci/api/</guid>
+      <description>The API is generated using Swagger 2.0 via go-swagger. Once the application is up and running, you can visit http://fibonacci.local/swagger-ui/ to explore the API.</description>
+    </item>
+    
+    <item>
+      <title>Documentation</title>
+      <link>https://andrewrynhard.github.io/fibonacci/documentation/</link>
+      <pubDate>Mon, 28 May 2018 16:27:37 -0700</pubDate>
+      
+      <guid>https://andrewrynhard.github.io/fibonacci/documentation/</guid>
+      <description>Generating the Documentation The documentation is generated using Hugo. To generate the documentation, simply run:
+make docs  Developing the Documentation First, ensure that hugo is installed. Once you have done that, run:
+cd ./hugo &amp;amp;&amp;amp; hugo server --watch --verbose --disableFastRender  Now you can modify the source code and see changes in real time.</description>
+    </item>
+    
+    <item>
+      <title>Fibonacci</title>
+      <link>https://andrewrynhard.github.io/fibonacci/fibonacci/</link>
+      <pubDate>Mon, 28 May 2018 16:27:37 -0700</pubDate>
+      
+      <guid>https://andrewrynhard.github.io/fibonacci/fibonacci/</guid>
+      <description>Fibonacci is a simple RESTful service that generates a sequence of Fibonacci numbers. For example:
+$ curl fibonacci.local/v1/sequence/5 {&amp;quot;sequence&amp;quot;:[&amp;quot;0&amp;quot;,&amp;quot;1&amp;quot;,&amp;quot;1&amp;quot;,&amp;quot;2&amp;quot;,&amp;quot;3&amp;quot;]}  </description>
+    </item>
+    
+    <item>
+      <title>Getting Started</title>
+      <link>https://andrewrynhard.github.io/fibonacci/getting-started/</link>
+      <pubDate>Mon, 28 May 2018 16:27:37 -0700</pubDate>
+      
+      <guid>https://andrewrynhard.github.io/fibonacci/getting-started/</guid>
+      <description>Quick Start Install the Dependencies docker The Dockerfiles use multi-stage builds. Docker 17.05 or greater is required. Follow the official installation guide for your platform.
+minikube curl -Lo /usr/local/bin/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64 \ &amp;amp;&amp;amp; chmod +x /usr/local/bin/minikube curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \ &amp;amp;&amp;amp; chmod +x docker-machine-driver-hyperkit \ &amp;amp;&amp;amp; sudo mv docker-machine-driver-hyperkit /usr/local/bin/ \ &amp;amp;&amp;amp; sudo chown root:wheel /usr/local/bin/docker-machine-driver-hyperkit \ &amp;amp;&amp;amp; sudo chmod u+s /usr/local/bin/docker-machine-driver-hyperkit  helm curl -L https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-darwin-amd64.tar.gz | tar -xz -C /usr/local/bin --strip-components=1 darwin-amd64/helm \ &amp;amp;&amp;amp; chmod +x /usr/local/bin/helm  kubectl curl -L https://storage.</description>
+    </item>
+    
+    <item>
+      <title>Preparing a Release</title>
+      <link>https://andrewrynhard.github.io/fibonacci/preparing-a-release/</link>
+      <pubDate>Mon, 28 May 2018 16:27:37 -0700</pubDate>
+      
+      <guid>https://andrewrynhard.github.io/fibonacci/preparing-a-release/</guid>
+      <description>Semantic Versioning Releases are managed via annotated git tags. Tags must follow the Semantic Versioning scheme.
+Performing a Release git checkout ${COMMIT} git tag -a v${MAJOR}.${MINOR}.${PATCH} -m &amp;quot;Prelease v${MAJOR}.${MINOR}.${PATCH}&amp;quot; git push --tags make push  e.g.
+git tag -a v0.1.0 -m &amp;quot;Prelease v0.1.0&amp;quot;  Performing a Prerelease git checkout ${COMMIT} git tag -a v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE} -m &amp;quot;Release v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE}&amp;quot; git push --tags make push  e.g.
+git tag -a v0.1.0-alpha.0 -m &amp;quot;Release v0.</description>
+    </item>
+    
+  </channel>
+</rss>
