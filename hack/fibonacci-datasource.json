@@ -1,0 +1,24 @@
+{
+    "id": 1,
+    "orgId": 1,
+    "name": "Prometheus",
+    "type": "prometheus",
+    "typeLogoUrl": "",
+    "access": "proxy",
+    "url": "http://prometheus-server.monitoring.svc.cluster.local",
+    "password": "",
+    "user": "",
+    "database": "",
+    "basicAuth": false,
+    "basicAuthUser": "",
+    "basicAuthPassword": "",
+    "withCredentials": false,
+    "isDefault": true,
+    "jsonData": {
+        "httpMethod": "GET",
+        "keepCookies": []
+    },
+    "secureJsonFields": {},
+    "version": 1,
+    "readOnly": true
+}

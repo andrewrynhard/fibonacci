@@ -91,6 +91,8 @@ monitoring:
 		-f ./helm/grafana/values.yaml \
 		--namespace $@ grafana stable/grafana
 	kubectl --context minikube rollout status deployment/grafana --namespace monitoring
+	-curl -X POST -H "Content-Type: application/json" --data "@./hack/fibonacci-datasource.json" http://admin:admin@grafana.local/api/datasources
+	-curl -X POST -H "Content-Type: application/json" --data "@./hack/fibonacci-dashboard.json" http://admin:admin@grafana.local/api/dashboards/db
 
 .PHONY: clean-dns
 clean-dns:
