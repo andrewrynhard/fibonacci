@@ -10,6 +10,7 @@ NAMESPACE = default
 CHART = fibonacci
 SET_ARGS = --set image.repository=$(REPOSITORY) --set image.tag=$(TAG) --set redis.usePassword="false"
 IP = $(shell ip route get 1 | awk '{print $$NF;exit}')
+UNAME_S := $(shell uname -s)
 
 all: kubernetes deploy
 
@@ -99,13 +100,25 @@ monitoring:
 
 .PHONY: clean-dns
 clean-dns:
-	sudo sed -i '' '/grafana.local/d' /private/etc/hosts
-	sudo sed -i '' '/fibonacci.local/d' /private/etc/hosts
+    ifeq ($(UNAME_S),Linux)
+		sudo sed -i '/grafana.local/d' /private/etc/hosts
+		sudo sed -i '/fibonacci.local/d' /private/etc/hosts
+    endif
+    ifeq ($(UNAME_S),Darwin)
+		sudo sed -i '' '/grafana.local/d' /private/etc/hosts
+		sudo sed -i '' '/fibonacci.local/d' /private/etc/hosts
+    endif
 
 .PHONY: dns
 dns: clean-dns
-	echo "$$(minikube ip) grafana.local" | sudo tee -a /private/etc/hosts
-	echo "$$(minikube ip) fibonacci.local" | sudo tee -a /private/etc/hosts
+    ifeq ($(UNAME_S),Linux)
+		echo "$$(minikube ip) grafana.local" | sudo tee -a /etc/hosts
+		echo "$$(minikube ip) fibonacci.local" | sudo tee -a /etc/hosts
+    endif
+    ifeq ($(UNAME_S),Darwin)
+		echo "$$(minikube ip) grafana.local" | sudo tee -a /private/etc/hosts
+		echo "$$(minikube ip) fibonacci.local" | sudo tee -a /private/etc/hosts
+    endif
 
 .PHONY: clean
 clean: clean-dns
