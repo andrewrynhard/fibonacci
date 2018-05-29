@@ -75,11 +75,13 @@ helm:
 
 .PHONY: monitoring
 monitoring:
+	helm repo update
 	helm upgrade \
 		--debug \
 		--wait \
 		--kube-context minikube \
 		--install \
+		--version 6.7.0 \
 		-f ./helm/prometheus/values.yaml \
 		--namespace $@ prometheus stable/prometheus
 	kubectl --context minikube rollout status deployment/prometheus-server --namespace monitoring
@@ -88,6 +90,7 @@ monitoring:
 		--wait \
 		--kube-context minikube \
 		--install \
+		--version 1.10.0 \
 		-f ./helm/grafana/values.yaml \
 		--namespace $@ grafana stable/grafana
 	kubectl --context minikube rollout status deployment/grafana --namespace monitoring
