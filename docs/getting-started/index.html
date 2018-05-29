@@ -342,6 +342,15 @@ invoking <code>make</code>:</p>
 <pre><code class="language-bash">export USERNAME=${your docker hub username goes here}
 </code></pre>
 
+<p>Now, ensure that you are logged in using the above <code>${USERNAME}</code>:</p>
+
+<pre><code class="language-bash">$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username (): ${USERNAME}
+Password:
+Login Succeeded
+</code></pre>
+
 <h3 id="create-the-kubernetes-cluster">Create the Kubernetes Cluster</h3>
 
 <p>These steps are optional, and exist to provide a local development environment.
@@ -378,13 +387,13 @@ The <code>all</code> target will perform the following:</p>
 
 <p>Congratulations! You can now use the API. For example:</p>
 
-<pre><code class="language-bash">curl http://fibonacci.local/v1/sequence/5
+<pre><code class="language-bash">$ curl http://fibonacci.local/v1/sequence/5
 {&quot;sequence&quot;:[&quot;0&quot;,&quot;1&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;]}
 </code></pre>
 
 <p>If you have setup DNS, or:</p>
 
-<pre><code class="language-bash">curl -H &quot;Host: fibonacci.local&quot; http://$(minikube ip)/v1/sequence/5
+<pre><code class="language-bash">$ curl -H &quot;Host: fibonacci.local&quot; http://$(minikube ip)/v1/sequence/5
 {&quot;sequence&quot;:[&quot;0&quot;,&quot;1&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;]}
 </code></pre>
 
