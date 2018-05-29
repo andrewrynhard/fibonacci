@@ -334,29 +334,37 @@ curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-
 <p>Note: <code>dep</code> is not a hard requirement to build and deploy Fibonacci. It is only required for development.</p>
 </blockquote>
 
-<h4 id="build-and-deploy">Build and Deploy</h4>
+<h3 id="set-the-required-environment-variables">Set the Required Environment Variables</h3>
 
-<p>Once you have ensured that the above dependecies have been installed, you are ready to start.</p>
-
-<p>First, the <code>Makefile</code> requires a valid Docker Hub username. Export the username before
+<p>The <code>Makefile</code> requires a valid Docker Hub username. Export the username before
 invoking <code>make</code>:</p>
 
 <pre><code class="language-bash">export USERNAME=${your docker hub username goes here}
 </code></pre>
 
-<p>The quick start uses the <code>all</code> target of the <code>Makefile</code>. This target will
-perform the following:</p>
+<h3 id="create-the-kubernetes-cluster">Create the Kubernetes Cluster</h3>
+
+<p>These steps are optional, and exist to provide a local development environment.
+You can skip them if you already have a Kubernetes cluster.
+To target an existing cluster be sure to export the <code>CONTEXT</code> variable to the context of the cluster.</p>
+
+<pre><code class="language-bash">make kubernetes
+sudo make dns
+</code></pre>
+
+<blockquote>
+<p>Note: <code>sudo</code> is required since the <code>dns</code> target will modify <code>/etc/hosts</code>.
+DNS is optional.</p>
+</blockquote>
+
+<h3 id="build-and-deploy">Build and Deploy</h3>
+
+<p>Once you have ensured that the above dependecies have been installed, you are ready to start.
+The <code>all</code> target will perform the following:</p>
 
 <ul>
-<li>Create a minikube cluster</li>
-<li>Install
-
-<ul>
-<li>Prometheus</li>
-<li>Grafana</li>
-</ul></li>
 <li>Build and push the Docker image</li>
-<li>Install Fibonacci</li>
+<li>Install the Fibonacci Helm chart</li>
 </ul>
 
 <p>Execute the steps outlined above by running:</p>
@@ -365,14 +373,32 @@ perform the following:</p>
 </code></pre>
 
 <blockquote>
-<p>Note: You can build on the minikube host by executing: <code>eval $(minikube docker-env)</code></p>
+<p>Note: You can build on the minikube host by executing <code>eval $(minikube docker-env)</code> before running <code>make</code></p>
 </blockquote>
 
-<p>You can now use the API! For example:</p>
+<p>Congratulations! You can now use the API. For example:</p>
 
-<pre><code class="language-bash">curl fibonacci.local/v1/sequence/5
+<pre><code class="language-bash">curl http://fibonacci.local/v1/sequence/5
 {&quot;sequence&quot;:[&quot;0&quot;,&quot;1&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;]}
 </code></pre>
+
+<p>If you have setup DNS, or:</p>
+
+<pre><code class="language-bash">curl -H &quot;Host: fibonacci.local&quot; http://$(minikube ip)/v1/sequence/5
+{&quot;sequence&quot;:[&quot;0&quot;,&quot;1&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;]}
+</code></pre>
+
+<p>if you have not.</p>
+
+<h4 id="cleaning-up">Cleaning Up</h4>
+
+<p>To tear everything down:</p>
+
+<pre><code class="language-bash">make clean
+sudo make clean-dns
+</code></pre>
+
+<p>This is only required if you have created the minikube cluster.</p>
 
 
 			<aside class="copyright" role="note">
