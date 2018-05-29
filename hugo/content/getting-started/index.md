@@ -53,26 +53,36 @@ go get -u github.com/golang/dep
 
 > Note: `dep` is not a hard requirement to build and deploy Fibonacci. It is only required for development.
 
-#### Build and Deploy
+### Set the Required Environment Variables
 
-Once you have ensured that the above dependecies have been installed, you are ready to start.
-
-First, the `Makefile` requires a valid Docker Hub username. Export the username before
+The `Makefile` requires a valid Docker Hub username. Export the username before
 invoking `make`:
 
 ```bash
 export USERNAME=${your docker hub username goes here}
 ```
 
-The quick start uses the `all` target of the `Makefile`. This target will
-perform the following:
+### Create the Kubernetes Cluster
 
-- Create a minikube cluster
-- Install
-  - Prometheus
-  - Grafana
+These steps are optional, and exist to provide a local development environment.
+You can skip them if you already have a Kubernetes cluster.
+To target an existing cluster be sure to export the `CONTEXT` variable to the context of the cluster.
+
+```bash
+make kubernetes
+sudo make dns
+```
+
+> Note: `sudo` is required since the `dns` target will modify `/etc/hosts`.
+> DNS is optional.
+
+### Build and Deploy
+
+Once you have ensured that the above dependecies have been installed, you are ready to start.
+The `all` target will perform the following:
+
 - Build and push the Docker image
-- Install Fibonacci
+- Install the Fibonacci Helm chart
 
 Execute the steps outlined above by running:
 
@@ -80,12 +90,31 @@ Execute the steps outlined above by running:
 make
 ```
 
-> Note: You can build on the minikube host by executing: `eval $(minikube docker-env)`
+> Note: You can build on the minikube host by executing `eval $(minikube docker-env)` before running `make`
 
-
-You can now use the API! For example:
+Congratulations! You can now use the API. For example:
 
 ```bash
-curl fibonacci.local/v1/sequence/5
+curl http://fibonacci.local/v1/sequence/5
 {"sequence":["0","1","1","2","3"]}
 ```
+
+If you have setup DNS, or:
+
+```bash
+curl -H "Host: fibonacci.local" http://$(minikube ip)/v1/sequence/5
+{"sequence":["0","1","1","2","3"]}
+```
+
+if you have not.
+
+#### Cleaning Up
+
+To tear everything down:
+
+```bash
+make clean
+sudo make clean-dns
+```
+
+This is only required if you have created the minikube cluster.

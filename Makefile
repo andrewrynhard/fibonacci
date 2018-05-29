@@ -11,8 +11,9 @@ CHART = fibonacci
 SET_ARGS = --set image.repository=$(REPOSITORY) --set image.tag=$(TAG) --set redis.usePassword="false"
 IP = $(shell ip route get 1 | awk '{print $$NF;exit}')
 UNAME_S := $(shell uname -s)
+CONTEXT ?= minikube
 
-all: kubernetes deploy
+all: deploy
 
 .PHONY: generate
 generate:
@@ -47,10 +48,11 @@ deploy: push
 	helm upgrade \
 		--debug \
 		--wait \
-		--kube-context minikube \
+		--kube-context $(CONTEXT) \
 		--install \
 		$(SET_ARGS) \
 		--namespace $(NAMESPACE) $(CHART) helm/$(CHART)
+	kubectl --context $(CONTEXT) rollout status deployment/fibonacci
 
 .PHONY: docs
 docs:
@@ -59,7 +61,7 @@ docs:
 	docker run --rm -i --volume $(shell pwd):/out --entrypoint=/bin/cp $(REPOSITORY):$@ -R ./docs /out/docs
 
 .PHONY: kubernetes
-kubernetes: minikube dns helm monitoring
+kubernetes: minikube helm monitoring
 
 .PHONY: minikube
 minikube:
@@ -69,10 +71,10 @@ minikube:
 
 .PHONY: helm
 helm:
-	-kubectl --context minikube create serviceaccount tiller --namespace kube-system
-	-kubectl --context minikube create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-	helm init --kube-context minikube
-	kubectl --context minikube rollout status deployment/tiller-deploy --namespace kube-system
+	-kubectl --context $(CONTEXT) create serviceaccount tiller --namespace kube-system
+	-kubectl --context $(CONTEXT) create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+	helm init --kube-context $(CONTEXT)
+	kubectl --context $(CONTEXT) rollout status deployment/tiller-deploy --namespace kube-system
 
 .PHONY: monitoring
 monitoring:
@@ -80,46 +82,46 @@ monitoring:
 	helm upgrade \
 		--debug \
 		--wait \
-		--kube-context minikube \
+		--kube-context $(CONTEXT) \
 		--install \
 		--version 6.7.0 \
 		-f ./helm/prometheus/values.yaml \
 		--namespace $@ prometheus stable/prometheus
-	kubectl --context minikube rollout status deployment/prometheus-server --namespace monitoring
+	kubectl --context $(CONTEXT) rollout status deployment/prometheus-server --namespace monitoring
 	helm upgrade \
 		--debug \
 		--wait \
-		--kube-context minikube \
+		--kube-context $(CONTEXT) \
 		--install \
 		--version 1.10.0 \
 		-f ./helm/grafana/values.yaml \
 		--namespace $@ grafana stable/grafana
-	kubectl --context minikube rollout status deployment/grafana --namespace monitoring
-	-curl -X POST -H "Content-Type: application/json" --data "@./hack/fibonacci-datasource.json" http://admin:admin@grafana.local/api/datasources
-	-curl -X POST -H "Content-Type: application/json" --data "@./hack/fibonacci-dashboard.json" http://admin:admin@grafana.local/api/dashboards/db
+	kubectl --context $(CONTEXT) rollout status deployment/grafana --namespace monitoring
+	-curl -X POST -H "Host: grafana.local" -H "Content-Type: application/json" --data "@./hack/fibonacci-datasource.json" http://admin:admin@$$(minikube ip)/api/datasources
+	-curl -X POST -H "Host: grafana.local" -H "Content-Type: application/json" --data "@./hack/fibonacci-dashboard.json" http://admin:admin@$$(minikube ip)/api/dashboards/db
 
 .PHONY: clean-dns
 clean-dns:
     ifeq ($(UNAME_S),Linux)
-		sudo sed -i '/grafana.local/d' /private/etc/hosts
-		sudo sed -i '/fibonacci.local/d' /private/etc/hosts
+		sed -i '/grafana.local/d' /private/etc/hosts
+		sed -i '/fibonacci.local/d' /private/etc/hosts
     endif
     ifeq ($(UNAME_S),Darwin)
-		sudo sed -i '' '/grafana.local/d' /private/etc/hosts
-		sudo sed -i '' '/fibonacci.local/d' /private/etc/hosts
+		sed -i '' '/grafana.local/d' /private/etc/hosts
+		sed -i '' '/fibonacci.local/d' /private/etc/hosts
     endif
 
 .PHONY: dns
 dns: clean-dns
     ifeq ($(UNAME_S),Linux)
-		echo "$$(minikube ip) grafana.local" | sudo tee -a /etc/hosts
-		echo "$$(minikube ip) fibonacci.local" | sudo tee -a /etc/hosts
+		echo "$$(minikube ip) grafana.local" | tee -a /etc/hosts
+		echo "$$(minikube ip) fibonacci.local" | tee -a /etc/hosts
     endif
     ifeq ($(UNAME_S),Darwin)
-		echo "$$(minikube ip) grafana.local" | sudo tee -a /private/etc/hosts
-		echo "$$(minikube ip) fibonacci.local" | sudo tee -a /private/etc/hosts
+		echo "$$(minikube ip) grafana.local" | tee -a /private/etc/hosts
+		echo "$$(minikube ip) fibonacci.local" | tee -a /private/etc/hosts
     endif
 
 .PHONY: clean
-clean: clean-dns
+clean:
 	minikube delete
