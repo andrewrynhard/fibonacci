@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # If HEAD is an annotated tag and the working tree is not dirty, return the tag.
-if git describe --exact-match HEAD > /dev/null 2>&1 && git diff --quiet; then
+if git describe --exact-match --tags > /dev/null 2>&1 && git diff --quiet; then
     echo $(git describe --abbrev=0 --tags)
     exit 0
 fi
