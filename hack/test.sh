@@ -30,7 +30,7 @@ perform_coverage_tests() {
   fi
   touch ${coverage_report}
   for package in ${GOPACKAGES[@]}; do
-    go test -v -race -coverprofile=${profile} -covermode=atomic $package
+    go test -v -short -race -coverprofile=${profile} -covermode=atomic $package
     if [ -f ${profile} ]; then
       cat ${profile} >> ${coverage_report}
       rm ${profile}

@@ -1,0 +1,5 @@
+FROM golang:1.10
+WORKDIR $GOPATH/src/github.com/andrewrynhard/fibonacci
+COPY ./ ./
+RUN chmod +x ./hack/test.sh
+RUN ./hack/test.sh --coverage

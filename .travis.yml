@@ -17,6 +17,7 @@ install:
 
 script:
   - make test
+  - make coverage
   - make docs
 
 after_success:

@@ -5,4 +5,5 @@
 !pkg
 !swagger
 !vendor
+!Gopkg.*
 !main.go

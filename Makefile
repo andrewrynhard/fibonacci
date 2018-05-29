@@ -33,12 +33,16 @@ test: build
 	-docker rm -f fibonacci-latest
 	helm lint $(SET_ARGS) helm/$(CHART)
 
+coverage:
+	docker build -f ./hack/docker/Dockerfile.$@ -t $(REPOSITORY):$@ .
+	docker run --rm -i --volume $(shell pwd):/out --entrypoint=/bin/cp $(REPOSITORY):$@ coverage.txt /out/
+
 .PHONY: push
 push: test
 	docker push $(REPOSITORY):$(TAG)
 
 .PHONY: deploy
-deploy:
+deploy: push
 	helm upgrade \
 		--debug \
 		--wait \
@@ -58,7 +62,8 @@ kubernetes: minikube dns helm monitoring
 
 .PHONY: minikube
 minikube:
-	minikube status || minikube start --vm-driver=hyperkit --kubernetes-version=v1.10.3 --cpus 4 --memory 8192
+	minikube status || minikube start --vm-driver=hyperkit --kubernetes-version=v1.10.3 --cpus 4 --memory 8192 \
+	&& kubectl --context minikube rollout status deployment/kube-dns --namespace kube-system
 	minikube addons enable ingress
 
 .PHONY: helm

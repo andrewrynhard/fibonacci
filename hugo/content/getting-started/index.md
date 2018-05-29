@@ -39,6 +39,14 @@ curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s http
 && chmod +x /usr/local/bin/kubectl
 ```
 
+#### `dep`
+
+```bash
+go get -u github.com/golang/dep
+```
+
+> Note: `dep` is not a hard requirement to build and deploy Fibonacci. It is only required for development.
+
 #### Build and Deploy
 
 Once you have ensured that the above dependecies have been installed, you are ready to start.
