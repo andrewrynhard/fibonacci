@@ -58,9 +58,9 @@ minikube curl -Lo /usr/local/bin/minikube https://storage.googleapis.com/minikub
       
       <guid>https://andrewrynhard.github.io/fibonacci/preparing-a-release/</guid>
       <description>Semantic Versioning Releases are managed via annotated git tags. Tags must follow the Semantic Versioning scheme.
-Performing a Release git checkout ${COMMIT} git tag -a v${MAJOR}.${MINOR}.${PATCH} -m &amp;quot;Prelease v${MAJOR}.${MINOR}.${PATCH}&amp;quot; git push --tags make push  e.g.
-git tag -a v0.1.0 -m &amp;quot;Prelease v0.1.0&amp;quot;  Performing a Prerelease git checkout ${COMMIT} git tag -a v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE} -m &amp;quot;Release v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE}&amp;quot; git push --tags make push  e.g.
-git tag -a v0.1.0-alpha.0 -m &amp;quot;Release v0.</description>
+Performing a Release git checkout ${COMMIT} git tag -a v${MAJOR}.${MINOR}.${PATCH} -m &amp;quot;Release v${MAJOR}.${MINOR}.${PATCH}&amp;quot; git push --tags make push  e.g.
+git tag -a v0.1.0 -m &amp;quot;Release v0.1.0&amp;quot;  Performing a Prerelease git checkout ${COMMIT} git tag -a v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE} -m &amp;quot;Prerelease v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE}&amp;quot; git push --tags make push  e.g.
+git tag -a v0.1.0-alpha.0 -m &amp;quot;Prerelease v0.</description>
     </item>
     
   </channel>

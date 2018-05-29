@@ -296,27 +296,27 @@ Tags must follow the <a href="https://semver.org/">Semantic Versioning</a> schem
 <h2 id="performing-a-release">Performing a Release</h2>
 
 <pre><code class="language-bash">git checkout ${COMMIT}
-git tag -a v${MAJOR}.${MINOR}.${PATCH} -m &quot;Prelease v${MAJOR}.${MINOR}.${PATCH}&quot;
+git tag -a v${MAJOR}.${MINOR}.${PATCH} -m &quot;Release v${MAJOR}.${MINOR}.${PATCH}&quot;
 git push --tags
 make push
 </code></pre>
 
 <p>e.g.</p>
 
-<pre><code class="language-bash">git tag -a v0.1.0 -m &quot;Prelease v0.1.0&quot;
+<pre><code class="language-bash">git tag -a v0.1.0 -m &quot;Release v0.1.0&quot;
 </code></pre>
 
 <h2 id="performing-a-prerelease">Performing a Prerelease</h2>
 
 <pre><code class="language-bash">git checkout ${COMMIT}
-git tag -a v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE} -m &quot;Release v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE}&quot;
+git tag -a v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE} -m &quot;Prerelease v${MAJOR}.${MINOR}.${PATCH}-${PRERELEASE}&quot;
 git push --tags
 make push
 </code></pre>
 
 <p>e.g.</p>
 
-<pre><code class="language-bash">git tag -a v0.1.0-alpha.0 -m &quot;Release v0.1.0-alpha.0&quot;
+<pre><code class="language-bash">git tag -a v0.1.0-alpha.0 -m &quot;Prerelease v0.1.0-alpha.0&quot;
 </code></pre>
 
 
